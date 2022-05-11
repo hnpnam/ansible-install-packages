@@ -1,0 +1,5 @@
+[all]
+<ip-1> ansible_connection=ssh ansible_ssh_user=<ssh-user-name> ansible_ssh_pass=<ssh-user-pass>
+<ip-2> ansible_connection=ssh ansible_ssh_user=<ssh-user-name> ansible_ssh_pass=<ssh-user-pass>
+...
+<ip-3> ansible_connection=ssh ansible_ssh_user=<ssh-user-name> ansible_ssh_pass=<ssh-user-pass>

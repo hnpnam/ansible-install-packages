@@ -1,0 +1,26 @@
+---
+# tasks file for configure
+- name: Copy the configuration file to conf.d
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: /etc/nginx/conf.d
+    mode: 0644
+  loop: "{{ lookup('fileglob', '*.conf', wantlist=True) }}"
+- name: Test configuration file
+  ansible.builtin.shell: |
+    set -o pipefail
+    nginx -t
+  args:
+    executable: /bin/bash
+  register: test_status
+  changed_when: test_status.rc != 0
+- name: Print the test configuration result
+  ansible.builtin.debug:
+    msg: "{{ test_status.stderr }}"
+- name: Apply configuration
+  ansible.builtin.shell: |
+    set -o pipefail
+    nginx -s reload
+  args:
+    executable: /bin/bash
+  when: "'successful' in test_status.stderr"
